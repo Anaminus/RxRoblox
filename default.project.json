@@ -1,0 +1,11 @@
+{
+	"name": "RxRoblox",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"RxPackages": {
+				"$path": "src"
+			}
+		}
+	}
+}
