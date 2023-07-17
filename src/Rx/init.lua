@@ -35,4 +35,8 @@ export.throw = require(script.Observables.throw)
 
 export.pipe = require(script.Operators.pipe)
 
+-- Schedulers
+
+export.scheduler = require(script.Schedulers)
+
 return table.freeze(export)

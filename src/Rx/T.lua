@@ -62,4 +62,12 @@ export type _Observable = {
 -- Used by an Observable to handle a new subscriber.
 export type Subscribe = (Observer) -> Task
 
+-- Schedules *worker* to be called at a particular interval. The returned
+-- Subscription cancels the schedule.
+export type Scheduler<T...> = (worker: Worker<T...>) -> Subscription
+
+-- Called by a Scheduler. Receives the time since the worker was last called.
+-- Additional arguments passed depend on the scheduler.
+export type Worker<T...> = (delta: number, T...) -> ()
+
 return true
