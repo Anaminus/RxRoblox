@@ -31,4 +31,8 @@ export.empty = require(script.Observables.empty)
 export.never = require(script.Observables.never)
 export.throw = require(script.Observables.throw)
 
+-- Operators
+
+export.pipe = require(script.Operators.pipe)
+
 return table.freeze(export)
