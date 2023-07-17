@@ -26,6 +26,7 @@ export type Observable = T.Observable
 
 export.isObservable = Observable.is
 export.create = Observable.new
+export.defer = require(script.Observables.defer)
 export.empty = require(script.Observables.empty)
 export.never = require(script.Observables.never)
 export.throw = require(script.Observables.throw)
