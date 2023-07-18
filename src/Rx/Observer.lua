@@ -4,6 +4,7 @@ local package = script:FindFirstAncestor("Rx")
 local packages = script:FindFirstAncestor("Rx").Parent
 local Maid = require(packages.Maid)
 local T = require(package.T)
+local Log = require(package.Log)
 
 --[=[
 
@@ -112,7 +113,7 @@ function Observer.__index:Next(...: any)
 			task.spawn(self.onNext, ...)
 		end
 	elseif self.state == Canceled then
-		warn(debug.traceback("notification pushed to canceled observer", 2))
+		Log.Warnft(2, "notification pushed to canceled observer")
 	end
 end
 
