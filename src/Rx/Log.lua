@@ -47,14 +47,16 @@ end
 
 --[=[
 
-Emits a warning formatted according to string.format with a stack trace.
+Emits a warning formatted according to string.format with a stack trace at a
+given level.
 
+@param level  -- The stack level.
 @param format -- Format string.
 @param ...    -- Format arguments.
 
 ]=]
-function export.Warnft(format: string, ...: any)
-	warn(debug.traceback(string.format(format, ...), 2))
+function export.Warnft(level: number, format: string, ...: any)
+	warn(debug.traceback(string.format(format, ...), level+1))
 end
 
 --[=[
