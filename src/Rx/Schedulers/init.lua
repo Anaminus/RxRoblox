@@ -2,7 +2,7 @@ local export = {}
 
 export.custom = require(script.custom)
 export.signal = require(script.signal)
-export.waiting = require(script.waiting)
+export.wait = require(script.wait)
 export.render = require(script.render)
 export.heartbeat = require(script.heartbeat)
 export.postSimulation = require(script.postSimulation)
