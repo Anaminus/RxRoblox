@@ -110,7 +110,28 @@ Invokes the observer's OnNext notification.
 function Observer.__index:Next(...: any)
 	if self.state == Active then
 		if self.onNext then
-			task.spawn(self.onNext, ...)
+			local trace
+			local function handle(...)
+				trace = debug.traceback(nil, 2)
+				return ...
+			end
+			local ok, err:any = xpcall(self.onNext, handle, ...)
+			if ok then
+				return
+			end
+			if self.onError then
+				local errTrace
+				local function handle(...)
+					errTrace = debug.traceback(nil, 2)
+					return ...
+				end
+				ok, err = xpcall(self.onError, handle, err, trace)
+				if not ok then
+					Log.Warnf("OnError panic: %s\n%s", err, errTrace)
+				end
+			else
+				Log.Warnf("OnNext panic: %s\n%s", err, trace)
+			end
 		end
 	elseif self.state == Canceled then
 		Log.Warnft(2, "notification pushed to canceled observer")
@@ -128,7 +149,16 @@ function Observer.__index:Error(...: any)
 	if self.state == Active then
 		self.state = Errored
 		if self.onError then
-			task.spawn(self.onError, ...)
+			local trace
+			local function handle(...)
+				trace = debug.traceback(nil, 2)
+				return ...
+			end
+			local ok, err:any = xpcall(self.onError, handle, ...)
+			if ok then
+				return
+			end
+			Log.Warnf("OnError panic: %s\n%s", err, trace)
 		end
 		export.cleanup(self)
 	end
@@ -143,7 +173,28 @@ function Observer.__index:Complete()
 	if self.state == Active then
 		self.state = Completed
 		if self.onComplete then
-			task.spawn(self.onComplete)
+			local trace
+			local function handle(...)
+				trace = debug.traceback(nil, 2)
+				return ...
+			end
+			local ok, err:any = xpcall(self.onComplete, handle)
+			if ok then
+				return
+			end
+			if self.onError then
+				local errTrace
+				local function handle(...)
+					errTrace = debug.traceback(nil, 2)
+					return ...
+				end
+				ok, err = xpcall(self.onError, handle, err, trace)
+				if not ok then
+					Log.Warnf("OnError panic: %s\n%s", err, errTrace)
+				end
+			else
+				Log.Warnf("OnComplete panic: %s\n%s", err, trace)
+			end
 		end
 		export.cleanup(self)
 	end
