@@ -31,6 +31,7 @@ export.empty = require(script.Observables.empty)
 export.never = require(script.Observables.never)
 export.throw = require(script.Observables.throw)
 export.interval = require(script.Observables.interval)
+export.just = require(script.Observables.just)
 
 -- Operators
 
